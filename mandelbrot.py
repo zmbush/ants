@@ -27,24 +27,30 @@ def escapeTime(c, iterations=100, threshold=4):
 
   return iteration
 
+seen = {}
 def continuousTime(c, iterations=100, threshold=4):
   """
     (a + bi) * (a + bi) = (a^2 + 2abi - b^2)
   """
+  
+  if c not in seen:
+    x = 0
+    y = 0
 
-  x = 0
-  y = 0
+    a,b = c
+    iteration = 0
+    while (x*x + y*y < threshold and iteration < iterations):
+      iteration += 1
 
-  a,b = c
-  iteration = 0
-  while (x*x + y*y < threshold and iteration < iterations):
-    iteration += 1
+      x, y = x*x - y*y + a, 2*x*y + b
 
-    x, y = x*x - y*y + a, 2*x*y + b
+    if (iteration >= iterations): 
+      seen[c] = 0
+      return 0
+    else:
+      return iteration - math.log(math.log(x*x + y*y) / math.log(threshold),2)
+  return iterations
 
-  if (iteration >= iterations): return 0
-
-  return iteration - math.log(math.log(x*x + y*y) / math.log(threshold),2)
 
 
 size = 200
@@ -96,3 +102,5 @@ while True:
         ymin = centery - (ysize/2)
 
         draw(xmin, xsize, ymin, ysize, window)
+
+        iterations *= 1.001

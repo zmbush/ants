@@ -285,5 +285,5 @@ while True:
                        sizemult/4) 
   pygame.display.update()
 
-  clock.tick(60)
+  clock.tick(30)
 
